@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-13T14:34:12.659Z</updated>
+  <updated>2020-04-20T03:08:14.694Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,45 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>php学习笔记</title>
+    <link href="http://yoursite.com/2020/04/14/php%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://yoursite.com/2020/04/14/php%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
+    <published>2020-04-14T07:15:33.000Z</published>
+    <updated>2020-04-20T03:08:14.694Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>sqllab</title>
+    <link href="http://yoursite.com/2020/04/14/sqllib/"/>
+    <id>http://yoursite.com/2020/04/14/sqllib/</id>
+    <published>2020-04-14T07:09:58.000Z</published>
+    <updated>2020-04-25T12:25:26.429Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="less-1"><a href="#less-1" class="headerlink" title="less-1"></a>less-1</h1><p>先输入?id=1判断是否存在注入漏洞</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygZrt.png" alt="JygZrt.png" title="">                </div>                <div class="image-caption">JygZrt.png</div>            </figure><p>在输入?id=1’发现构造出了’1’’的错误语句</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygJrq.png" alt="JygJrq.png" title="">                </div>                <div class="image-caption">JygJrq.png</div>            </figure><p>输入1’or 1=1—+发现回显正常，由于空格会被自动去掉，所以用+代替空格</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygYq0.png" alt="JygYq0.png" title="">                </div>                <div class="image-caption">JygYq0.png</div>            </figure><p>order by 3成功，order by 4 失败，判断有3列数据<br><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/Jygys1.png" alt="Jygys1.png" title="">                </div>                <div class="image-caption">Jygys1.png</div>            </figure></p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygBRJ.png" alt="JygBRJ.png" title="">                </div>                <div class="image-caption">JygBRJ.png</div>            </figure><p>输入-1’union select 1,2,3—+,当查询不存在的id时，数据库会将后面的查询语句的内容回显，并且可以判断2，3为显示位 </p><p><img src="https://s1.ax1x.com/2020/04/25/JygDz9.png" alt="JygDz9.png"></p><p>输入database()获取数据库名，输入version（）获取版本号</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/Jyg2dK.png" alt="Jyg2dK.png" title="">                </div>                <div class="image-caption">Jyg2dK.png</div>            </figure><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygRIO.png" alt="JygRIO.png" title="">                </div>                <div class="image-caption">JygRIO.png</div>            </figure><p>通过group_concat将多个数据查询结果转为字符串输出，通过查询information获取库名，并查询security库中的表名</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygfiD.png" alt="JygfiD.png" title="">                </div>                <div class="image-caption">JygfiD.png</div>            </figure><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JyghJe.png" alt="JyghJe.png" title="">                </div>                <div class="image-caption">JyghJe.png</div>            </figure><p>查询users表中的列</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/Jyg4RH.png" alt="Jyg4RH.png" title="">                </div>                <div class="image-caption">Jyg4RH.png</div>            </figure><p>获取用户名及密码</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygoQA.png" alt="JygoQA.png" title="">                </div>                <div class="image-caption">JygoQA.png</div>            </figure><h1 id="less-2"><a href="#less-2" class="headerlink" title="less-2"></a>less-2</h1><p>输入1发现正常返回，1’错误返回，’’LIMIT 0,1’说明为数字型注入</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/Jyg5zd.png" alt="Jyg5zd.png" title="">                </div>                <div class="image-caption">Jyg5zd.png</div>            </figure><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygTsI.png" alt="JygTsI.png" title="">                </div>                <div class="image-caption">JygTsI.png</div>            </figure><p>只需将less-1中的’去掉就可以通过</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/Jyg7Lt.png" alt="Jyg7Lt.png" title="">                </div>                <div class="image-caption">Jyg7Lt.png</div>            </figure><h1 id="less-3"><a href="#less-3" class="headerlink" title="less-3"></a>less-3</h1><p>输入1’发现回显’1’’)多了一个)，猜测将查询为id=（’$id’）</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygbeP.png" alt="JygbeP.png" title="">                </div>                <div class="image-caption">JygbeP.png</div>            </figure><p>将-1’后加个）即可通过</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/Jygqdf.png" alt="Jygqdf.png" title="">                </div>                <div class="image-caption">Jygqdf.png</div>            </figure><h1 id="less-4"><a href="#less-4" class="headerlink" title="less-4"></a>less-4</h1><p>输入1’正常返回。输入1”错误</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygLo8.png" alt="JygLo8.png" title="">                </div>                <div class="image-caption">JygLo8.png</div>            </figure><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygXFS.png" alt="JygXFS.png" title="">                </div>                <div class="image-caption">JygXFS.png</div>            </figure><p>猜测将id进行了（””)包装，构住1”)即可通过</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/04/25/JygjJg.png" alt="JygjJg.png" title="">                </div>                <div class="image-caption">JygjJg.png</div>            </figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;less-1&quot;&gt;&lt;a href=&quot;#less-1&quot; class=&quot;headerlink&quot; title=&quot;less-1&quot;&gt;&lt;/a&gt;less-1&lt;/h1&gt;&lt;p&gt;先输入?id=1判断是否存在注入漏洞&lt;/p&gt;
+&lt;figure class=&quot;image-bubble&quot;&gt;
+ 
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
